@@ -64,34 +64,17 @@ plot.rgam <- function(x, newx, index, which = NULL, rugplot = TRUE,
     }
 
     for (j in which) {
-        # get xrange for the plot
+        # get xrange for the plot and the corresponding y-values
         xval <- seq(min(x[, j]), max(x[, j]), length.out = grid_length)
+        yval <- getf(rgam.out, xval, j, index)
 
-        # get the linear part
-        beta <- rgam.out$full_glmfit$beta[j , index]
-        yval <- beta * xval
-        if (beta == 0) {
-            colval <- "blue"
-        } else {
+        # get color of the line
+        if (j %in% rgam.out$nonlinfeat[[index]]) {
+            colval <- "red"
+        } else if (j %in% rgam.out$linfeat[[index]]) {
             colval <- "green"
-        }
-
-        # get the non-linear part
-        if (j %in% rgam.out$init_nz) {
-            l <- which(rgam.out$init_nz == j)
-
-            temp <- rgam.out$spline_fit[[l]]
-            fval <- predict(temp, scale(xval, rgam.out$mxf[j], rgam.out$sxf[j]))$y
-            if (rgam.out$removeLin) {
-                lm_coef <- rgam.out$lin_comp_fit[[l]]
-                fval <- fval - lm_coef[1] - lm_coef[2] * xval
-            }
-
-            beta <- rgam.out$full_glmfit$beta[p + l, index]
-            yval <- yval + beta * fval
-            if (beta != 0) {
-                colval <- "red"
-            }
+        } else {
+            colval <- "blue"
         }
 
         plot(x = xval, y = yval, type = "l", col = colval, lwd = 2,
@@ -100,5 +83,4 @@ plot.rgam <- function(x, newx, index, which = NULL, rugplot = TRUE,
             rug(x[, j])
         }
     }
-
 }

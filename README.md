@@ -35,6 +35,7 @@ This section lists the updates that we have since the CRAN version of
 the package. This development version is v1.1.
 
 -   Added basic tests.
+-   Simplified code for `plot.rgam()`.
 
 An example
 ----------
