@@ -7,8 +7,7 @@
 makef(x, r, df = 4, tol = 0.01, removeLin = T)
 }
 \arguments{
-\item{x}{Input matrix, of dimension \code{nobs x nvars}; each row is
-an observation vector.}
+\item{x}{Input vector of length \code{nobs}.}
 
 \item{r}{Vector of residuals.}
 
@@ -22,11 +21,11 @@ the newly created non-linear features.}
 }
 \value{
 A list:
-\item{f}{Non-linear features associated with the features in \code{x}.}
-\item{spline_fit}{A list of the spline fits of the residual against each
-feature. Useful for creating the non-linear features for new data.}
-\item{lin_comp_fit}{If \code{removeLin = TRUE}, a list of coefficients for
-simple linear regression of non-linear feature on original feature. Useful
+\item{f}{Non-linear feature associated with \code{x}.}
+\item{spline_fit}{Spline fit of the residual against the feature. Needed for 
+creating the non-linear features for new data.}
+\item{lin_comp_fit}{If \code{removeLin = TRUE}, coefficients for
+simple linear regression of non-linear feature on the original feature. Needed
 for creating the non-linear features for new data.}
 }
 \description{
