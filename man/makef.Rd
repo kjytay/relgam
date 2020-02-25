@@ -4,7 +4,7 @@
 \alias{makef}
 \title{Make non-linear features}
 \usage{
-makef(x, r, df, tol = 0.01, removeLin = T)
+makef(x, r, df = 4, tol = 0.01, removeLin = T)
 }
 \arguments{
 \item{x}{Input matrix, of dimension \code{nobs x nvars}; each row is
@@ -12,7 +12,7 @@ an observation vector.}
 
 \item{r}{Vector of residuals.}
 
-\item{df}{Degrees of freedom for the fit.}
+\item{df}{Degrees of freedom for the fit. Default is 4.}
 
 \item{tol}{A tolerance for same-ness or uniqueness of the x values. To be
 passed to the \code{smooth.spline()} function. Default is \code{0.01}.}

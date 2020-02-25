@@ -4,8 +4,7 @@
 \alias{predict.cv.rgam}
 \title{Make predictions from a "cv.rgam" object}
 \usage{
-\method{predict}{cv.rgam}(object, xnew, s = c("lambda.1se",
-  "lambda.min"), ...)
+\method{predict}{cv.rgam}(object, xnew, s = c("lambda.1se", "lambda.min"), ...)
 }
 \arguments{
 \item{object}{Fitted "\code{cv.rgam}" object.}

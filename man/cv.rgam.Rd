@@ -4,10 +4,21 @@
 \alias{cv.rgam}
 \title{Cross-validation for reluctant generalized additive model (rgam)}
 \usage{
-cv.rgam(x, y, lambda = NULL, family = c("gaussian", "binomial",
-  "poisson", "cox"), offset = NULL, init_nz, gamma, nfolds = 10,
-  foldid = NULL, keep = FALSE, parallel = FALSE, verbose = TRUE,
-  ...)
+cv.rgam(
+  x,
+  y,
+  lambda = NULL,
+  family = c("gaussian", "binomial", "poisson", "cox"),
+  offset = NULL,
+  init_nz,
+  gamma,
+  nfolds = 10,
+  foldid = NULL,
+  keep = FALSE,
+  parallel = FALSE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix, of dimension \code{nobs x nvars}; each row is

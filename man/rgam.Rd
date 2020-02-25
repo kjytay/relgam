@@ -4,11 +4,23 @@
 \alias{rgam}
 \title{Fit reluctant generalized additive model}
 \usage{
-rgam(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x),
-  0.01, 1e-04), standardize = TRUE, family = c("gaussian", "binomial",
-  "poisson", "cox"), offset = NULL, init_nz, removeLin = TRUE,
-  nfolds = 5, foldid = NULL, df = 4, gamma, tol = 0.01,
-  parallel = FALSE, verbose = TRUE)
+rgam(
+  x,
+  y,
+  lambda = NULL,
+  lambda.min.ratio = ifelse(nrow(x) < ncol(x), 0.01, 1e-04),
+  standardize = TRUE,
+  family = c("gaussian", "binomial", "poisson", "cox"),
+  offset = NULL,
+  init_nz,
+  removeLin = TRUE,
+  nfolds = 5,
+  foldid = NULL,
+  gamma,
+  parallel = FALSE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix, of dimension \code{nobs x nvars}; each row is
@@ -58,14 +70,8 @@ not recommended for large datasets. Smallest value allowable is \code{nfolds = 3
 identifying what fold each observation is in. If supplied, \code{nfolds} can
 be missing.}
 
-\item{df}{Degrees of freedom for the non-linear fit in Step 2. Default is 4.}
-
 \item{gamma}{Scale factor for non-linear features (vs. original features), to
 be between 0 and 1. Default is 0.8 if \code{init_nz = c()}, 0.6 otherwise.}
-
-\item{tol}{Parameter to be passed to \code{smooth.spline}: a tolerance for
-same-ness or uniqueness of the x values. Default is 0.01. See
-\code{smooth.spline} documentation for more details.}
 
 \item{parallel}{If TRUE, the \code{cv.glmnet()} call in Step 1 is
 parallelized. Must register parallel before hand, such as doMC or others.
@@ -73,6 +79,8 @@ Default is FALSE.}
 
 \item{verbose}{If \code{TRUE} (default), model-fitting is tracked with a
 progress bar.}
+
+\item{...}{Any additional arguments to be the non-linear fitter in Step 2.}
 }
 \value{
 An object of class \code{"rgam"}.

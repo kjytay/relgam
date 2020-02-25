@@ -4,8 +4,7 @@
 \alias{summary.rgam}
 \title{rgam summary routine}
 \usage{
-\method{summary}{rgam}(object, label = FALSE, index = NULL,
-  which = NULL, ...)
+\method{summary}{rgam}(object, label = FALSE, index = NULL, which = NULL, ...)
 }
 \arguments{
 \item{object}{Fitted \code{rgam} object.}

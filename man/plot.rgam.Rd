@@ -4,8 +4,16 @@
 \alias{plot.rgam}
 \title{Make a plot of rgam model fit}
 \usage{
-\method{plot}{rgam}(x, newx, index, which = NULL, rugplot = TRUE,
-  grid_length = 100, names, ...)
+\method{plot}{rgam}(
+  x,
+  newx,
+  index,
+  which = NULL,
+  rugplot = TRUE,
+  grid_length = 100,
+  names,
+  ...
+)
 }
 \arguments{
 \item{x}{Fitted \code{rgam} object.}

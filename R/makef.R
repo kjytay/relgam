@@ -5,7 +5,7 @@
 #' @param x Input matrix, of dimension \code{nobs x nvars}; each row is
 #' an observation vector.
 #' @param r Vector of residuals.
-#' @param df Degrees of freedom for the fit.
+#' @param df Degrees of freedom for the fit. Default is 4.
 #' @param tol A tolerance for same-ness or uniqueness of the x values. To be
 #' passed to the \code{smooth.spline()} function. Default is \code{0.01}.
 #' @param removeLin If \code{TRUE} (default), removes the linear component from
@@ -18,7 +18,7 @@
 #' \item{lin_comp_fit}{If \code{removeLin = TRUE}, a list of coefficients for
 #' simple linear regression of non-linear feature on original feature. Useful
 #' for creating the non-linear features for new data.}
-makef <- function(x, r, df, tol = 0.01, removeLin = T) {
+makef <- function(x, r, df = 4, tol = 0.01, removeLin = T) {
     n <- nrow(x); p <- ncol(x)
 
     f <- matrix(NA, n, p)

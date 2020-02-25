@@ -56,17 +56,14 @@
 #' @param foldid An optional vector of values between 1 and \code{nfolds}
 #' identifying what fold each observation is in. If supplied, \code{nfolds} can
 #' be missing.
-#' @param df Degrees of freedom for the non-linear fit in Step 2. Default is 4.
 #' @param gamma Scale factor for non-linear features (vs. original features), to
 #' be between 0 and 1. Default is 0.8 if \code{init_nz = c()}, 0.6 otherwise.
-#' @param tol Parameter to be passed to \code{smooth.spline}: a tolerance for
-#' same-ness or uniqueness of the x values. Default is 0.01. See
-#' \code{smooth.spline} documentation for more details.
 #' @param parallel If TRUE, the \code{cv.glmnet()} call in Step 1 is
 #' parallelized. Must register parallel before hand, such as doMC or others.
 #' Default is FALSE.
 #' @param verbose If \code{TRUE} (default), model-fitting is tracked with a
 #' progress bar.
+#' @param ... Any additional arguments to be the non-linear fitter in Step 2.
 #'
 #' @return An object of class \code{"rgam"}.
 #' \item{full_glmfit}{The glmnet object resulting from Step 3: fitting a \code{glmnet}
@@ -132,7 +129,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
                 0.01, 1e-04), standardize = TRUE,
                 family = c("gaussian","binomial", "poisson", "cox"), offset = NULL,
                 init_nz, removeLin = TRUE, nfolds = 5, foldid = NULL,
-                df = 4, gamma, tol = 0.01, parallel = FALSE, verbose = TRUE) {
+                gamma, parallel = FALSE, verbose = TRUE, ...) {
     this.call <- match.call()
 
     n <- nrow(x); p <- ncol(x)
@@ -225,8 +222,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
     if (verbose) utils::setTxtProgressBar(pb, 1)
 
     # Step 2: make the non-linear features x
-    out <- makef(x[, init_nz, drop = F], r, df, tol = tol,
-                 removeLin = removeLin)
+    out <- makef(x[, init_nz, drop = F], r, removeLin = removeLin, ...)
     f <- out$f
 
     # standardize non-linear features
