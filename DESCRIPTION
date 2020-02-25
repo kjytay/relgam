@@ -1,7 +1,7 @@
 Package: relgam
 Type: Package
 Title: Reluctant Generalized Additive Models
-Version: 1.0
+Version: 1.1
 Author: Kenneth Tay, Robert Tibshirani
 Maintainer: Kenneth Tay <kjytay@stanford.edu>
 Description: A method for fitting the entire regularization path of the
@@ -16,5 +16,6 @@ RoxygenNote: 6.1.1
 Imports: glmnet, foreach
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr

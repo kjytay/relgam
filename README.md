@@ -2,6 +2,7 @@
 <!-- badges: start -->
 [![CRAN
 status](https://www.r-pkg.org/badges/version/relgam)](https://cran.r-project.org/package=relgam)
+[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/relgam)](https://cran.r-project.org/package=relgam)
 <!-- badges: end -->
 
 relgam
@@ -10,10 +11,14 @@ relgam
 `relgam` is a package implementing **Reluctant Generalized Additive
 Modeling (RGAM)**, a new technique for fitting sparse generalized
 additive models (GAMs). RGAMs are computationally scalable and work with
-continuous, binary, count and survival data. For more details on RGAM,
-please see [the preprint](https://arxiv.org/abs/1912.01808). At a high
-level, RGAM is fit in the following way: letting `y` denote the response
-variable and `X` denote the design matrix,
+continuous, binary, count and survival data. For the mathematical
+details, please see [the preprint](https://arxiv.org/abs/1912.01808).
+For a short tutorial on how to use the package, please see the [vignette
+on
+CRAN](https://cran.r-project.org/web/packages/relgam/vignettes/relgam.html).
+
+At a high level, RGAM is fit in the following way: letting `y` denote
+the response variable and `X` denote the design matrix,
 
 1.  Fit the lasso of `y` on `X` using the `glmnet` package. Compute the
     residuals `r` at the `lambda` hyperparameter selected by
@@ -22,6 +27,14 @@ variable and `X` denote the design matrix,
     of `r` on the feature to get a new, non-linear feature. Let `F`
     denote the matrix of new features.
 3.  Fit the lasso of `y` on `X` and `F` using the `glmnet` package.
+
+Updates on top of the CRAN version
+----------------------------------
+
+This section lists the updates that we have since the CRAN version of
+the package. This development version is v1.1.
+
+-   Added basic tests.
 
 An example
 ----------
