@@ -49,12 +49,7 @@ predict.rgam <- function(object, xnew, ...) {
     fnew <- matrix(NA, nrow(xnew_nonlin), ncol(xnew_nonlin))
     if (ncol(xnew_nonlin) > 0) {
         for (j in 1:ncol(xnew_nonlin)) {
-            temp <- object$spline_fit[[j]]
-            fnew[, j] <- predict(temp, xnew_nonlin[, j])$y
-            if (object$removeLin) {
-                lm_coef <- object$lin_comp_fit[[j]]
-                fnew[, j] <- fnew[, j] - lm_coef[1] - lm_coef[2] * xnew_nonlin[, j]
-            }
+            fnew[, j] <- object$nl_predictor[[j]](xnew_nonlin[, j])
         }
     }
 

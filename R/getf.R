@@ -44,20 +44,13 @@ getf <- function (object, x, j, index) {
     }
 
     # get the linear part
-    beta <- object$full_glmfit$beta[j , index]
+    beta <- object$full_glmfit$beta[j, index]
     yval <- beta * xval
 
     # get the non-linear part
     if (j %in% object$init_nz) {
         l <- which(object$init_nz == j)
-
-        temp <- object$spline_fit[[l]]
-        fval <- predict(temp, scale(xval, object$mxf[j], object$sxf[j]))$y
-        if (object$removeLin) {
-            lm_coef <- object$lin_comp_fit[[l]]
-            fval <- fval - lm_coef[1] - lm_coef[2] * xval
-        }
-
+        fval <- object$nl_predictor[[l]](scale(xval, object$mxf[j], object$sxf[j]))
         beta <- object$full_glmfit$beta[object$p + l, index]
         yval <- yval + beta * fval
     }

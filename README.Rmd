@@ -36,6 +36,7 @@ This section lists the updates that we have since the CRAN version of the packag
 
 - Added basic tests.
 - Simplified code for `plot.rgam()`.
+- Fixed bug in `getf()` (some issue with standardization of variables when computing the non-linear component).
 
 ## An example
 

@@ -224,12 +224,14 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
     # Step 2: make the non-linear features x
     spline_fit <- list()
     lin_comp_fit <- list()
+    nl_predictor <- list()
     f <- matrix(NA, n, length(init_nz))
     for (j in 1:length(init_nz)) {
         out <- makef(x[, init_nz[j]], r, removeLin = removeLin, ...)
         f[, j] <- out$f
         spline_fit[[j]] <- out$spline_fit
         lin_comp_fit[[j]] <- out$lin_comp_fit
+        nl_predictor[[j]] <- out$nl_predictor
     }
 
     # standardize non-linear features
@@ -283,7 +285,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
     if (verbose) utils::setTxtProgressBar(pb, 3)
 
     out <- list(full_glmfit = full_glmfit, spline_fit = spline_fit,
-                lin_comp_fit = lin_comp_fit,
+                lin_comp_fit = lin_comp_fit, nl_predictor = nl_predictor,
                 init_nz = init_nz, step1_nz = step1_nz, removeLin = removeLin,
                 mxf = mxf, sxf = sxf,
                 feat = feat, linfeat = linfeat, nonlinfeat = nonlinfeat,

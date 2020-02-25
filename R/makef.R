@@ -25,11 +25,25 @@ makef <- function(x, r, df = 4, tol = 0.01, removeLin = T) {
 
     # remove linear component if asked to
     lin_comp_fit <- NULL
-    if(removeLin) {
+    if (removeLin) {
         lm_model <- lsfit(x, f)
         f <- lm_model$res
         lin_comp_fit <- lm_model$coefficients
     }
-
-    return(list(f = f, spline_fit = temp, lin_comp_fit = lin_comp_fit))
+    
+    # create predictor function to help us get the non-linear function for 
+    # future x values
+    if (removeLin) {
+        nl_predictor <- function(xnew) {
+            fnew <- predict(temp, xnew)$y
+            fnew - lin_comp_fit[1] - lin_comp_fit[2] * xnew
+        }
+    } else {
+        nl_predictor <- function(xnew) {
+            predict(temp, xnew)$y
+        }
+    }
+    
+    return(list(f = f, spline_fit = temp, lin_comp_fit = lin_comp_fit, 
+                nl_predictor = nl_predictor))
 }
