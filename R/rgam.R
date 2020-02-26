@@ -228,6 +228,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
         out <- nl_maker(x[, init_nz[j]], r, ...)
         f[, j] <- out$f
         nl_predictor[[j]] <- out$nl_predictor
+        if (verbose) utils::setTxtProgressBar(pb, 1 + j / (length(init_nz) + 1))
     }
 
     # standardize non-linear features
