@@ -13,7 +13,6 @@ rgam(
   family = c("gaussian", "binomial", "poisson", "cox"),
   offset = NULL,
   init_nz,
-  removeLin = TRUE,
   nfolds = 5,
   foldid = NULL,
   gamma,
@@ -59,9 +58,6 @@ function.}
 computing the non-linear features. Default is to construct non-linear features
 for all given features.}
 
-\item{removeLin}{When constructing the non-linear features, do we remove
-the linear component from them? Default is \code{TRUE}.}
-
 \item{nfolds}{Number of folds for CV in Step 1 (default is 5). Although
 \code{nfolds} can be as large as the sample size (leave-one-out CV), it is
 not recommended for large datasets. Smallest value allowable is \code{nfolds = 3}.}
@@ -94,8 +90,6 @@ for predicting on new data.}
 \item{init_nz}{Column indices for the features which we allow to have
 non-linear relationship with the response.}
 \item{step1_nz}{Indices of features which CV in Step 1 chose.}
-\item{removeLin}{Did we remove the linear components when constructing the
-non-linear features? Needed for predicting on new data.}
 \item{mxf}{Means of the features (both linear and non-linear).}
 \item{sxf}{Scale factors of the features (both linear and non-linear).}
 \item{feat}{Column indices of the non-zero features for each value of

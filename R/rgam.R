@@ -48,8 +48,6 @@
 #' @param init_nz A vector specifying which features we must include when
 #' computing the non-linear features. Default is to construct non-linear features
 #' for all given features.
-#' @param removeLin When constructing the non-linear features, do we remove
-#' the linear component from them? Default is \code{TRUE}.
 #' @param nfolds Number of folds for CV in Step 1 (default is 5). Although
 #' \code{nfolds} can be as large as the sample size (leave-one-out CV), it is
 #' not recommended for large datasets. Smallest value allowable is \code{nfolds = 3}.
@@ -76,8 +74,6 @@
 #' \item{init_nz}{Column indices for the features which we allow to have
 #' non-linear relationship with the response.}
 #' \item{step1_nz}{Indices of features which CV in Step 1 chose.}
-#' \item{removeLin}{Did we remove the linear components when constructing the
-#' non-linear features? Needed for predicting on new data.}
 #' \item{mxf}{Means of the features (both linear and non-linear).}
 #' \item{sxf}{Scale factors of the features (both linear and non-linear).}
 #' \item{feat}{Column indices of the non-zero features for each value of
@@ -128,7 +124,7 @@
 rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x),
                 0.01, 1e-04), standardize = TRUE,
                 family = c("gaussian","binomial", "poisson", "cox"), offset = NULL,
-                init_nz, removeLin = TRUE, nfolds = 5, foldid = NULL,
+                init_nz, nfolds = 5, foldid = NULL,
                 gamma, parallel = FALSE, verbose = TRUE, ...) {
     this.call <- match.call()
 
@@ -227,7 +223,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
     nl_predictor <- list()
     f <- matrix(NA, n, length(init_nz))
     for (j in 1:length(init_nz)) {
-        out <- makef(x[, init_nz[j]], r, removeLin = removeLin, ...)
+        out <- makef(x[, init_nz[j]], r, ...)
         f[, j] <- out$f
         spline_fit[[j]] <- out$spline_fit
         lin_comp_fit[[j]] <- out$lin_comp_fit
@@ -286,8 +282,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
 
     out <- list(full_glmfit = full_glmfit, spline_fit = spline_fit,
                 lin_comp_fit = lin_comp_fit, nl_predictor = nl_predictor,
-                init_nz = init_nz, step1_nz = step1_nz, removeLin = removeLin,
-                mxf = mxf, sxf = sxf,
+                init_nz = init_nz, step1_nz = step1_nz, mxf = mxf, sxf = sxf,
                 feat = feat, linfeat = linfeat, nonlinfeat = nonlinfeat,
                 nzero_feat = nzero_feat, nzero_lin = nzero_lin,
                 nzero_nonlin = nzero_nonlin, lambda = full_glmfit$lambda,
