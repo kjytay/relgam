@@ -82,11 +82,8 @@ progress bar.}
 An object of class \code{"rgam"}.
 \item{full_glmfit}{The glmnet object resulting from Step 3: fitting a \code{glmnet}
 model for the response against the linear & non-linear features.}
-\item{spline_fit}{List of spline fits for residual against each response.
-Needed for predicting on new data.}
-\item{lin_comp_fit}{If \code{removeLin = TRUE}, a list of coefficients for
-simple linear regression of non-linear feature on original feature. Needed
-for predicting on new data.}
+\item {nl_predictor}{List of functions used to get the non-linear features for 
+new data. For internal use only.}
 \item{init_nz}{Column indices for the features which we allow to have
 non-linear relationship with the response.}
 \item{step1_nz}{Indices of features which CV in Step 1 chose.}

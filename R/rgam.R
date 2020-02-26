@@ -66,11 +66,8 @@
 #' @return An object of class \code{"rgam"}.
 #' \item{full_glmfit}{The glmnet object resulting from Step 3: fitting a \code{glmnet}
 #' model for the response against the linear & non-linear features.}
-#' \item{spline_fit}{List of spline fits for residual against each response.
-#' Needed for predicting on new data.}
-#' \item{lin_comp_fit}{If \code{removeLin = TRUE}, a list of coefficients for
-#' simple linear regression of non-linear feature on original feature. Needed
-#' for predicting on new data.}
+#' \item {nl_predictor}{List of functions used to get the non-linear features for 
+#' new data. For internal use only.}
 #' \item{init_nz}{Column indices for the features which we allow to have
 #' non-linear relationship with the response.}
 #' \item{step1_nz}{Indices of features which CV in Step 1 chose.}
@@ -218,15 +215,11 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
     if (verbose) utils::setTxtProgressBar(pb, 1)
 
     # Step 2: make the non-linear features x
-    spline_fit <- list()
-    lin_comp_fit <- list()
     nl_predictor <- list()
     f <- matrix(NA, n, length(init_nz))
     for (j in 1:length(init_nz)) {
         out <- makef(x[, init_nz[j]], r, ...)
         f[, j] <- out$f
-        spline_fit[[j]] <- out$spline_fit
-        lin_comp_fit[[j]] <- out$lin_comp_fit
         nl_predictor[[j]] <- out$nl_predictor
     }
 
@@ -280,8 +273,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
     # update progress bar
     if (verbose) utils::setTxtProgressBar(pb, 3)
 
-    out <- list(full_glmfit = full_glmfit, spline_fit = spline_fit,
-                lin_comp_fit = lin_comp_fit, nl_predictor = nl_predictor,
+    out <- list(full_glmfit = full_glmfit, nl_predictor = nl_predictor,
                 init_nz = init_nz, step1_nz = step1_nz, mxf = mxf, sxf = sxf,
                 feat = feat, linfeat = linfeat, nonlinfeat = nonlinfeat,
                 nzero_feat = nzero_feat, nzero_lin = nzero_lin,

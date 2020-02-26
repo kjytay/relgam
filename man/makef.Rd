@@ -22,11 +22,9 @@ the newly created non-linear features.}
 \value{
 A list:
 \item{f}{Non-linear feature associated with \code{x}.}
-\item{spline_fit}{Spline fit of the residual against the feature. Needed for 
+\item{nl_predictor}{A function which, when given new data \code{newx}, returns 
+the value of the non-linear predictor at those \code{x} values. Needed for 
 creating the non-linear features for new data.}
-\item{lin_comp_fit}{If \code{removeLin = TRUE}, coefficients for
-simple linear regression of non-linear feature on the original feature. Needed
-for creating the non-linear features for new data.}
 }
 \description{
 Internal function for making non-linear features.
