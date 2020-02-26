@@ -38,6 +38,13 @@
 #' @param standardize If \code{TRUE} (default), the columns of the input matrix
 #' are standardized before the algorithm is run. See details section for more
 #' information.
+#' @param nl_maker This is a function that takes in one feature \code{x} and one 
+#' response \code{r} and fits a model of \code{r} on \code{x}. It returns a list
+#' of two items: (i) \code{f} which is a vector of fitted values, and (ii) a 
+#' function \code{nl_predictor} which returns the fit for a given \code{newx} 
+#' value. Additional arguments for \code{nl_maker} can be passed via \code{...}. 
+#' The default is \code{relgam::makef}, which fits a smoothing spline with a 
+#' user-specified degrees of freedom.
 #' @param family Response type. Either \code{"gaussian"} (default) for linear
 #' regression, \code{"binomial"} for logistic regression, \code{"poisson"} for
 #' Poisson regression or \code{"cox"} for Cox regression.
@@ -66,7 +73,7 @@
 #' @return An object of class \code{"rgam"}.
 #' \item{full_glmfit}{The glmnet object resulting from Step 3: fitting a \code{glmnet}
 #' model for the response against the linear & non-linear features.}
-#' \item {nl_predictor}{List of functions used to get the non-linear features for 
+#' \item{nl_predictor}{List of functions used to get the non-linear features for 
 #' new data. For internal use only.}
 #' \item{init_nz}{Column indices for the features which we allow to have
 #' non-linear relationship with the response.}
@@ -119,7 +126,7 @@
 #' @import utils
 #' @export
 rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x),
-                0.01, 1e-04), standardize = TRUE,
+                0.01, 1e-04), standardize = TRUE, nl_maker = relgam:::makef,
                 family = c("gaussian","binomial", "poisson", "cox"), offset = NULL,
                 init_nz, nfolds = 5, foldid = NULL,
                 gamma, parallel = FALSE, verbose = TRUE, ...) {
@@ -218,7 +225,7 @@ rgam <- function(x, y, lambda = NULL, lambda.min.ratio = ifelse(nrow(x) < ncol(x
     nl_predictor <- list()
     f <- matrix(NA, n, length(init_nz))
     for (j in 1:length(init_nz)) {
-        out <- makef(x[, init_nz[j]], r, ...)
+        out <- nl_maker(x[, init_nz[j]], r, ...)
         f[, j] <- out$f
         nl_predictor[[j]] <- out$nl_predictor
     }

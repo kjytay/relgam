@@ -10,6 +10,7 @@ rgam(
   lambda = NULL,
   lambda.min.ratio = ifelse(nrow(x) < ncol(x), 0.01, 1e-04),
   standardize = TRUE,
+  nl_maker = relgam:::makef,
   family = c("gaussian", "binomial", "poisson", "cox"),
   offset = NULL,
   init_nz,
@@ -44,6 +45,14 @@ close to zero. If nobs < nvars, the default is 0.01.}
 \item{standardize}{If \code{TRUE} (default), the columns of the input matrix
 are standardized before the algorithm is run. See details section for more
 information.}
+
+\item{nl_maker}{This is a function that takes in one feature \code{x} and one 
+response \code{r} and fits a model of \code{r} on \code{x}. It returns a list
+of two items: (i) \code{f} which is a vector of fitted values, and (ii) a 
+function \code{nl_predictor} which returns the fit for a given \code{newx} 
+value. Additional arguments for \code{nl_maker} can be passed via \code{...}. 
+The default is \code{relgam::makef}, which fits a smoothing spline with a 
+user-specified degrees of freedom.}
 
 \item{family}{Response type. Either \code{"gaussian"} (default) for linear
 regression, \code{"binomial"} for logistic regression, \code{"poisson"} for
@@ -82,7 +91,7 @@ progress bar.}
 An object of class \code{"rgam"}.
 \item{full_glmfit}{The glmnet object resulting from Step 3: fitting a \code{glmnet}
 model for the response against the linear & non-linear features.}
-\item {nl_predictor}{List of functions used to get the non-linear features for 
+\item{nl_predictor}{List of functions used to get the non-linear features for 
 new data. For internal use only.}
 \item{init_nz}{Column indices for the features which we allow to have
 non-linear relationship with the response.}
