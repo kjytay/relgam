@@ -27,13 +27,14 @@ knitr::opts_chunk$set(
 At a high level, RGAM is fit in the following way: letting `y` denote the response variable and `X` denote the design matrix,
 
 1. Fit the lasso of `y` on `X` using the `glmnet` package. Compute the residuals `r` at the `lambda` hyperparameter selected by cross-validation.
-2. For each of the original features, fit a `d`-degree smoothing spline of `r` on the feature to get a new, non-linear feature. Let `F` denote the matrix of new features.
+2. For each of the original features, fit a smoothing spline with `d` degrees of freedom of `r` on the feature to get a new, non-linear feature. Let `F` denote the matrix of new features.
 3. Fit the lasso of `y` on `X` and `F` using the `glmnet` package.
 
 ## Updates on top of the CRAN version
 
 This section lists the updates that we have since the CRAN version of the package. This development version is v1.1.
 
+- Made Step 2 more generic. Previously Step 2 was restricted to fitting a degree smoothing spline with `d` degrees of freedom of `r` on each original feature. Now, the user can specify the univariate fitting method for Step 2 using the new `nl_maker` option in `rgam()`. Additional arguments for the `nl_maker` function can be passed to `rgam()` as well: they are passed down to `nl_maker` via the `...`. The default fitting function is the smoothing spline with `d` degrees of freedom (as before).
 - Added basic tests.
 - Simplified code for `plot.rgam()`.
 - Fixed bug in `getf()` (some issue with standardization of variables when computing the non-linear component).
